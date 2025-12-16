@@ -33,7 +33,7 @@ class SendTelegramNotifications extends Command
     public function handle()
     {
         // Get token from env or use default
-        $botToken = env('TELEGRAM_BOT_TOKEN', '7817290791:AAHjBpDzEpxrFPrrHJuoh4FNyCfwA7OubqI');
+        $botToken = env('TELEGRAM_BOT_TOKEN', '8422912318:AAGxX8sld94TMHF1b_5M4FOyzYzDpmXB0ZE');
         
         if (!$botToken) {
             $this->error('Telegram bot token not configured. Please set TELEGRAM_BOT_TOKEN in .env');
