@@ -1,0 +1,23 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('domain_checks', function (Blueprint $table) {
+            $table->unique(['user_id', 'domain'], 'domain_checks_user_domain_unique');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('domain_checks', function (Blueprint $table) {
+            $table->dropUnique('domain_checks_user_domain_unique');
+        });
+    }
+};
+
