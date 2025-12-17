@@ -10,6 +10,11 @@ class EditAlias extends EditRecord
 {
     protected static string $resource = AliasResource::class;
 
+    protected function getRedirectUrl(): ?string
+    {
+        return static::getResource()::getUrl('index');
+    }
+
     protected function getHeaderActions(): array
     {
         return [

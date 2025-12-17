@@ -10,6 +10,11 @@ class CreateAlias extends CreateRecord
 {
     protected static string $resource = AliasResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
+
     protected function getFormActions(): array
     {
         return [

@@ -12,6 +12,11 @@ class CreateUser extends CreateRecord
 {
     protected static string $resource = UserResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
+
     protected function getFormActions(): array
     {
         return [
@@ -33,6 +38,13 @@ class CreateUser extends CreateRecord
         $currentRole = $currentUser?->role;
 
         $targetRole = $data['role'] ?? 'user';
+        $allowedRoles = ['master', 'admin', 'user'];
+
+        if (! in_array($targetRole, $allowedRoles, true)) {
+            throw ValidationException::new()->errors([
+                'role' => ['Access level must be one of: Master, Admin, User.'],
+            ]);
+        }
 
         if ($currentRole === 'admin' && $targetRole !== 'user') {
             throw ValidationException::new()->errors([

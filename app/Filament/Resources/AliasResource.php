@@ -50,7 +50,7 @@ class AliasResource extends Resource
     {
         return $form
             ->schema([
-                // User tidak perlu dipilih di form; otomatis set ke user yang sedang login (master)
+                // User does not need to be selected in the form; it is set automatically for the logged-in user (master).
                 Forms\Components\Hidden::make('user_id')
                     ->default(fn () => auth()->id()),
                 Forms\Components\TextInput::make('custom_domain')
@@ -59,7 +59,7 @@ class AliasResource extends Resource
                     ->unique(ignoreRecord: true)
                     ->maxLength(255)
                     ->default(function () {
-                        // Ambil domain dari APP_URL (misal: https://example.com -> example.com)
+                        // Get domain from APP_URL (e.g. https://example.com -> example.com)
                         $appUrl = config('app.url', '');
 
                         if (empty($appUrl)) {
@@ -68,7 +68,7 @@ class AliasResource extends Resource
 
                         $host = parse_url($appUrl, PHP_URL_HOST) ?: $appUrl;
 
-                        // Bersihkan trailing slash dan pastikan hanya domain
+                        // Remove trailing slash and ensure it's only the domain
                         $host = Str::of($host)->trim('/');
 
                         return (string) $host;

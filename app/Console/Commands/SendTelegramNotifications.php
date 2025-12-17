@@ -202,7 +202,7 @@ class SendTelegramNotifications extends Command
             $shortlink = $change->shortlink;
             $shortCode = $shortlink?->short_code ?? 'N/A';
 
-            // Bangun URL shortlink lengkap (alias custom domain jika ada, jika tidak pakai APP_URL)
+            // Build full shortlink URL (use custom domain alias if present, otherwise APP_URL)
             $baseDomain = $shortlink?->alias?->custom_domain ?? config('app.url');
             $baseDomain = preg_replace('#^https?://#', '', (string) $baseDomain);
             $shortUrl = rtrim($baseDomain, '/') . '/' . $shortCode;
@@ -215,7 +215,7 @@ class SendTelegramNotifications extends Command
             // Jika primary ter-block, cari dan tampilkan domain baru untuk redirect
             if ($isBlocked && $shortlink) {
                 // Cek apakah ini adalah primary target yang ter-block
-                // Note: Setelah auto-switch, primary sudah berubah, jadi kita cek dari old_status
+                // Note: After auto-switch, primary has changed, so we check using old_status
                 $targetUrlModel = $change->targetUrl;
                 
                 // Cek apakah target URL ini adalah primary (saat ini atau sebelumnya)

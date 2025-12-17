@@ -10,6 +10,11 @@ class EditDomainCheck extends EditRecord
 {
     protected static string $resource = DomainCheckResource::class;
 
+    protected function getRedirectUrl(): ?string
+    {
+        return static::getResource()::getUrl('index');
+    }
+
     public function mount(int | string $record): void
     {
         parent::mount($record);
@@ -57,13 +62,13 @@ class EditDomainCheck extends EditRecord
 
         if ($exists) {
             \Filament\Notifications\Notification::make()
-                ->title('Domain sudah terdaftar')
-                ->body('Domain tersebut sudah ada untuk user ini.')
+                ->title('Domain already registered')
+                ->body('This domain already exists for this user.')
                 ->danger()
                 ->send();
 
             throw \Illuminate\Validation\ValidationException::withMessages([
-                'domain' => 'Domain ini sudah terdaftar untuk user.',
+                'domain' => 'This domain is already registered for the user.',
             ]);
         }
 

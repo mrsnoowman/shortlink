@@ -10,12 +10,14 @@ class ListRoles extends ListRecords
 {
     protected static string $resource = RoleResource::class;
 
+    protected static ?string $title = 'Organizations / Groups';
+
     protected function getHeaderActions(): array
     {
         return [
             Actions\CreateAction::make()
                 ->icon('heroicon-o-plus-circle')
-                ->label('New Role'),
+                ->label('Add Organization / Group'),
         ];
     }
 }

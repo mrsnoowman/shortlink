@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AE News | Portal Berita Terkini</title>
+    <title>AE News | Daily News Portal</title>
     <style>
         * {
             margin: 0;
@@ -356,11 +356,11 @@
                     </div>
                 </div>
                 <div class="nav-links">
-                    <span class="nav-link">Beranda</span>
-                    <span class="nav-link">Teknologi</span>
-                    <span class="nav-link">Bisnis</span>
-                    <span class="nav-link">Olahraga</span>
-                    <span class="nav-link">Gaya Hidup</span>
+                    <span class="nav-link">Home</span>
+                    <span class="nav-link">Technology</span>
+                    <span class="nav-link">Business</span>
+                    <span class="nav-link">Sports</span>
+                    <span class="nav-link">Lifestyle</span>
                 </div>
             </div>
         </nav>
@@ -368,22 +368,22 @@
         <section class="hero">
             <div class="hero-inner">
                 <div>
-                    <div class="hero-kicker">Headline Hari Ini</div>
+                    <div class="hero-kicker">Today’s Headline</div>
                     <h1 class="hero-title">
-                        Tren <span class="hero-highlight">Teknologi & Bisnis</span> yang Mengubah Cara Kita Bekerja
+                        <span class="hero-highlight">Technology & Business</span> Trends That Are Changing How We Work
                     </h1>
                     <p class="hero-subtitle">
-                        Update harian seputar teknologi, bisnis, dan gaya hidup digital yang dikemas secara ringkas, 
-                        profesional, dan mudah dipahami.
+                        Daily updates on technology, business, and digital lifestyle — concise, professional,
+                        and easy to follow.
                     </p>
                     <div class="hero-meta">
                         <div class="hero-meta-item">
                             <span>Editorial</span>
-                            <span>Disusun oleh tim AE News · {{ date('d M Y') }}</span>
+                            <span>Prepared by the AE News team · {{ date('d M Y') }}</span>
                         </div>
                         <div class="hero-meta-item">
-                            <span>Topik</span>
-                            <span>AI · Startup · Produktivitas · Kesehatan</span>
+                            <span>Topics</span>
+                            <span>AI · Startups · Productivity · Health</span>
                         </div>
                     </div>
                 </div>
@@ -391,12 +391,12 @@
                     <div class="hero-image">
                         <img
                             src="https://images.unsplash.com/photo-1526498460520-4c246339dccb?w=1200&h=600&fit=crop"
-                            alt="Ruang kerja modern dengan teknologi"
+                            alt="Modern workspace with technology"
                             onerror="this.src='https://via.placeholder.com/1200x600/020617/ffffff?text=AE+News'"
                         >
                     </div>
                     <div class="hero-tag">
-                        <span>✨ Pilihan Editor</span>
+                        <span>✨ Editor’s Pick</span>
                         <span>•</span>
                         <span>{{ date('d M Y') }}</span>
                     </div>
@@ -407,21 +407,21 @@
         <main class="main">
             <div class="main-layout">
                 <section>
-                    <div class="section-title">Berita Utama</div>
+                    <div class="section-title">Top Stories</div>
                     <div class="news-grid">
-            <!-- Berita 1 -->
+            <!-- Story 1 -->
             <article class="news-card">
                 <img 
                     src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=600&fit=crop" 
-                    alt="Teknologi"
+                    alt="Technology"
                     class="news-image"
                     onerror="this.src='https://via.placeholder.com/800x600/667eea/ffffff?text=Technology'"
                 >
                 <div class="news-content">
-                    <span class="news-category">Teknologi</span>
-                    <h2 class="news-title">Perkembangan Teknologi AI di Tahun 2025</h2>
+                    <span class="news-category">Technology</span>
+                    <h2 class="news-title">AI Breakthroughs to Watch in 2025</h2>
                     <p class="news-excerpt">
-                        Artificial Intelligence terus berkembang dengan pesat. Tahun 2025 membawa inovasi baru dalam machine learning dan deep learning yang akan mengubah cara kita bekerja dan hidup.
+                        Artificial intelligence continues to accelerate. In 2025, new advances in machine learning and deep learning are reshaping how we work and live.
                     </p>
                     <div class="news-meta">
                         <span class="news-date">📅 {{ date('d M Y') }}</span>
@@ -430,19 +430,19 @@
                 </div>
             </article>
 
-            <!-- Berita 2 -->
+            <!-- Story 2 -->
             <article class="news-card">
                 <img 
                     src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop" 
-                    alt="Bisnis"
+                    alt="Business"
                     class="news-image"
                     onerror="this.src='https://via.placeholder.com/800x600/764ba2/ffffff?text=Business'"
                 >
                 <div class="news-content">
-                    <span class="news-category" style="background: #764ba2;">Bisnis</span>
-                    <h2 class="news-title">Strategi Bisnis Digital di Era Modern</h2>
+                    <span class="news-category" style="background: #764ba2;">Business</span>
+                    <h2 class="news-title">Winning Digital Strategies for Modern Businesses</h2>
                     <p class="news-excerpt">
-                        Transformasi digital menjadi kunci sukses bisnis di era modern. Pelaku usaha perlu mengadopsi teknologi untuk tetap kompetitif di pasar global.
+                        Digital transformation is a key driver of growth. Companies that adopt the right technology stay competitive in global markets.
                     </p>
                     <div class="news-meta">
                         <span class="news-date">📅 {{ date('d M Y', strtotime('-1 day')) }}</span>
@@ -451,19 +451,19 @@
                 </div>
             </article>
 
-            <!-- Berita 3 -->
+            <!-- Story 3 -->
             <article class="news-card">
                 <img 
                     src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&h=600&fit=crop" 
-                    alt="Kesehatan"
+                    alt="Health"
                     class="news-image"
                     onerror="this.src='https://via.placeholder.com/800x600/48bb78/ffffff?text=Health'"
                 >
                 <div class="news-content">
-                    <span class="news-category" style="background: #48bb78;">Kesehatan</span>
-                    <h2 class="news-title">Tips Menjaga Kesehatan di Musim Hujan</h2>
+                    <span class="news-category" style="background: #48bb78;">Health</span>
+                    <h2 class="news-title">Practical Wellness Tips for Rainy Season</h2>
                     <p class="news-excerpt">
-                        Musim hujan membawa tantangan tersendiri untuk kesehatan. Simak tips praktis untuk menjaga daya tahan tubuh dan mencegah penyakit selama musim hujan.
+                        Rainy season can be tough on your health. Here are simple habits to strengthen immunity and reduce the risk of illness.
                     </p>
                     <div class="news-meta">
                         <span class="news-date">📅 {{ date('d M Y', strtotime('-2 days')) }}</span>
@@ -472,19 +472,19 @@
                 </div>
             </article>
 
-            <!-- Berita 4 -->
+            <!-- Story 4 -->
             <article class="news-card">
                 <img 
                     src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&h=600&fit=crop" 
-                    alt="Olahraga"
+                    alt="Sports"
                     class="news-image"
                     onerror="this.src='https://via.placeholder.com/800x600/ed8936/ffffff?text=Sports'"
                 >
                 <div class="news-content">
-                    <span class="news-category" style="background: #ed8936;">Olahraga</span>
-                    <h2 class="news-title">Prestasi Atlet Indonesia di Ajang Internasional</h2>
+                    <span class="news-category" style="background: #ed8936;">Sports</span>
+                    <h2 class="news-title">Athletes Shine on the International Stage</h2>
                     <p class="news-excerpt">
-                        Atlet Indonesia kembali menorehkan prestasi gemilang di berbagai ajang internasional. Pencapaian ini membanggakan dan menginspirasi generasi muda.
+                        Athletes delivered standout performances across international competitions, inspiring the next generation.
                     </p>
                     <div class="news-meta">
                         <span class="news-date">📅 {{ date('d M Y', strtotime('-3 days')) }}</span>
@@ -493,19 +493,19 @@
                 </div>
             </article>
 
-            <!-- Berita 5 -->
+            <!-- Story 5 -->
             <article class="news-card">
                 <img 
                     src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop" 
-                    alt="Lingkungan"
+                    alt="Environment"
                     class="news-image"
                     onerror="this.src='https://via.placeholder.com/800x600/38a169/ffffff?text=Environment'"
                 >
                 <div class="news-content">
-                    <span class="news-category" style="background: #38a169;">Lingkungan</span>
-                    <h2 class="news-title">Gerakan Peduli Lingkungan untuk Masa Depan</h2>
+                    <span class="news-category" style="background: #38a169;">Environment</span>
+                    <h2 class="news-title">Sustainability Initiatives Shaping the Future</h2>
                     <p class="news-excerpt">
-                        Kesadaran akan pentingnya menjaga lingkungan semakin meningkat. Berbagai gerakan peduli lingkungan digalakkan untuk menciptakan masa depan yang lebih baik.
+                        Awareness is rising. Communities and organizations are accelerating sustainability initiatives to build a better future.
                     </p>
                     <div class="news-meta">
                         <span class="news-date">📅 {{ date('d M Y', strtotime('-4 days')) }}</span>
@@ -514,20 +514,19 @@
                 </div>
             </article>
 
-                        <!-- Berita 6 -->
+                        <!-- Story 6 -->
                         <article class="news-card">
                             <img 
                                 src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop" 
-                                alt="Pendidikan"
+                                alt="Education"
                                 class="news-image"
                                 onerror="this.src='https://via.placeholder.com/800x600/805ad5/ffffff?text=Education'"
                             >
                             <div class="news-content">
-                                <span class="news-category" style="border-color:#a855f7;">🎓 Pendidikan</span>
-                                <h2 class="news-title">Inovasi dalam Sistem Pendidikan Digital</h2>
+                                <span class="news-category" style="border-color:#a855f7;">🎓 Education</span>
+                                <h2 class="news-title">Innovation in Digital Education Systems</h2>
                                 <p class="news-excerpt">
-                                    Pendidikan digital menjadi solusi untuk meningkatkan akses dan kualitas pembelajaran. 
-                                    Teknologi membuka peluang baru untuk metode belajar yang lebih interaktif.
+                                    Digital learning improves access and quality. Technology enables new opportunities for more interactive learning methods.
                                 </p>
                                 <div class="news-meta">
                                     <span class="news-date">📅 {{ date('d M Y', strtotime('-5 days')) }}</span>
@@ -539,41 +538,41 @@
                 </section>
 
                 <aside class="sidebar">
-                    <div class="sidebar-title">Trending Minggu Ini</div>
+                    <div class="sidebar-title">Trending This Week</div>
                     <ul class="sidebar-list">
                         <li class="sidebar-item">
                             <span class="sidebar-rank">1</span>
                             <div class="sidebar-text">
-                                <div class="sidebar-text-title">5 Tools AI untuk Produktivitas Kerja Harian</div>
-                                <div class="sidebar-text-meta">Teknologi · 4.1K views</div>
+                                <div class="sidebar-text-title">5 AI Tools for Everyday Productivity</div>
+                                <div class="sidebar-text-meta">Technology · 4.1K views</div>
                             </div>
                         </li>
                         <li class="sidebar-item">
                             <span class="sidebar-rank">2</span>
                             <div class="sidebar-text">
-                                <div class="sidebar-text-title">Cara UKM Bertahan di Tengah Ketidakpastian Ekonomi</div>
-                                <div class="sidebar-text-meta">Bisnis · 3.7K views</div>
+                                <div class="sidebar-text-title">How Small Businesses Navigate Economic Uncertainty</div>
+                                <div class="sidebar-text-meta">Business · 3.7K views</div>
                             </div>
                         </li>
                         <li class="sidebar-item">
                             <span class="sidebar-rank">3</span>
                             <div class="sidebar-text">
-                                <div class="sidebar-text-title">Rutinitas Sehat 15 Menit untuk Pekerja Kantoran</div>
-                                <div class="sidebar-text-meta">Kesehatan · 2.9K views</div>
+                                <div class="sidebar-text-title">A 15-Minute Healthy Routine for Office Workers</div>
+                                <div class="sidebar-text-meta">Health · 2.9K views</div>
                             </div>
                         </li>
                         <li class="sidebar-item">
                             <span class="sidebar-rank">4</span>
                             <div class="sidebar-text">
-                                <div class="sidebar-text-title">Tips Mengelola Waktu di Era Hybrid Working</div>
-                                <div class="sidebar-text-meta">Gaya Hidup · 2.4K views</div>
+                                <div class="sidebar-text-title">Time Management Tips for Hybrid Work</div>
+                                <div class="sidebar-text-meta">Lifestyle · 2.4K views</div>
                             </div>
                         </li>
                         <li class="sidebar-item">
                             <span class="sidebar-rank">5</span>
                             <div class="sidebar-text">
-                                <div class="sidebar-text-title">Tren Startup Lokal yang Mengguncang Pasar Asia</div>
-                                <div class="sidebar-text-meta">Startup · 1.9K views</div>
+                                <div class="sidebar-text-title">Local Startup Trends Disrupting Asian Markets</div>
+                                <div class="sidebar-text-meta">Startups · 1.9K views</div>
                             </div>
                         </li>
                     </ul>
@@ -585,9 +584,9 @@
             <div class="footer-inner">
                 <div>© {{ date('Y') }} AE News · aelink.click · All rights reserved.</div>
                 <div class="footer-links">
-                    <span class="footer-link">Tentang Kami</span>
-                    <span class="footer-link">Kebijakan Privasi</span>
-                    <span class="footer-link">Kontak</span>
+                    <span class="footer-link">About Us</span>
+                    <span class="footer-link">Privacy Policy</span>
+                    <span class="footer-link">Contact</span>
                 </div>
             </div>
         </footer>

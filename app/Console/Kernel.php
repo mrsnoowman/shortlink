@@ -74,12 +74,12 @@ class Kernel extends ConsoleKernel
                     if ($output) {
                         $output->writeln('<error>✗ ' . $validation['message'] . '</error>');
                         $output->writeln('');
-                        $output->writeln('<comment>Aplikasi tidak dapat dijalankan karena license key tidak valid atau kadaluarsa.</comment>');
-                        $output->writeln('<comment>Gunakan "php artisan license:generate" untuk membuat license key baru.</comment>');
+                        $output->writeln('<comment>The application cannot run because the license key is invalid or expired.</comment>');
+                        $output->writeln('<comment>Use "php artisan license:generate" to generate a new license key.</comment>');
                     } else {
                         echo "✗ " . $validation['message'] . "\n\n";
-                        echo "Aplikasi tidak dapat dijalankan karena license key tidak valid atau kadaluarsa.\n";
-                        echo "Gunakan \"php artisan license:generate\" untuk membuat license key baru.\n";
+                        echo "The application cannot run because the license key is invalid or expired.\n";
+                        echo "Use \"php artisan license:generate\" to generate a new license key.\n";
                     }
                     return 1;
                 }

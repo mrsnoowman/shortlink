@@ -51,7 +51,7 @@ class ValidateLicense extends Command
         if ($validation['valid']) {
             $this->info('✓ ' . $validation['message']);
             if (isset($validation['days_remaining'])) {
-                $this->line("Days Remaining: {$validation['days_remaining']} hari");
+                $this->line("Days Remaining: {$validation['days_remaining']} day(s)");
             }
             if (isset($validation['warning'])) {
                 $this->warn('⚠ ' . $validation['warning']);

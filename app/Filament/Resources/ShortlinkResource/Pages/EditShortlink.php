@@ -14,6 +14,11 @@ class EditShortlink extends EditRecord
 {
     protected static string $resource = ShortlinkResource::class;
 
+    protected function getRedirectUrl(): ?string
+    {
+        return static::getResource()::getUrl('index');
+    }
+
     public function mount(int | string $record): void
     {
         parent::mount($record);
@@ -82,8 +87,8 @@ class EditShortlink extends EditRecord
             $user = User::find($newUserId);
 
             if ($user) {
-                $shortLimit = $user->limit_short ?? 0;
-                if ($shortLimit > 0) {
+                $shortLimit = $user->limit_short; // null = Unlimited
+                if ($shortLimit !== null) {
                     $currentShorts = Shortlink::where('user_id', $user->id)->count();
 
                     if (($currentShorts + 1) > $shortLimit) {
@@ -98,8 +103,8 @@ class EditShortlink extends EditRecord
                     $query->where('user_id', $user->id);
                 })->count();
 
-                $domainLimit = $user->limit_domain ?? 0;
-                if ($domainLimit > 0 && ($currentDomains + $ownedTargetUrls) > $domainLimit) {
+                $domainLimit = $user->limit_domain; // null = Unlimited
+                if ($domainLimit !== null && ($currentDomains + $ownedTargetUrls) > $domainLimit) {
                     throw ValidationException::withMessages([
                         'user_id' => 'Domain limit for this user has been reached.',
                     ]);

@@ -211,8 +211,8 @@ class DomainCheckResource extends Resource
                 ]);
         }
 
-        $limit = $user->limit_domain_check ?? 0;
-        if ($limit > 0) {
+        $limit = $user->limit_domain_check; // null = Unlimited
+        if ($limit !== null) {
             $currentChecks = DomainCheck::where('user_id', $userId)->count();
             if ($currentChecks >= $limit) {
                 \Filament\Notifications\Notification::make()

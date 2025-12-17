@@ -45,7 +45,7 @@ class ShortlinkAnalytics extends Page implements HasTable
 
         $this->record = $record;
 
-        // Data untuk chart 30 hari terakhir
+        // Data for the chart (last 30 days)
         $startDate = Carbon::today()->subDays(29);
 
         $logs = RedirectLog::query()

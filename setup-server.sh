@@ -71,7 +71,10 @@ if [ ! -f .env ]; then
         echo "APP_ENV=production" >> .env
         echo "APP_KEY=" >> .env
         echo "APP_DEBUG=false" >> .env
-        echo "APP_URL=http://localhost" >> .env
+        # IMPORTANT: set this to your real HTTPS domain (e.g. https://aelink.click)
+        echo "APP_URL=https://example.com" >> .env
+        # Optional: set if you want to force asset URLs to a specific base (CDN/domain).
+        echo "ASSET_URL=https://example.com" >> .env
         echo "" >> .env
         echo "DB_CONNECTION=mysql" >> .env
         echo "DB_HOST=127.0.0.1" >> .env

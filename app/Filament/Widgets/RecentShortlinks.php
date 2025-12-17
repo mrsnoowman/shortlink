@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class RecentShortlinks extends BaseWidget
 {
-    protected static ?string $heading = 'Shortlink Terbaru';
+    protected static ?string $heading = 'Recent Shortlinks';
 
     protected int|string|array $columnSpan = [
         'md' => 1,
@@ -40,7 +40,7 @@ class RecentShortlinks extends BaseWidget
     {
         return [
             Tables\Columns\TextColumn::make('short_code')
-                ->label('Kode')
+                ->label('Code')
                 ->searchable()
                 ->sortable(),
             Tables\Columns\TextColumn::make('target_url')
@@ -53,7 +53,7 @@ class RecentShortlinks extends BaseWidget
                 // Always show user name so admins can see which user owns each shortlink
                 ->sortable(),
             Tables\Columns\TextColumn::make('created_at')
-                ->label('Dibuat')
+                ->label('Created')
                 ->since(),
         ];
     }

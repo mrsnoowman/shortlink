@@ -10,6 +10,13 @@ class CreateRole extends CreateRecord
 {
     protected static string $resource = RoleResource::class;
 
+    protected static ?string $title = 'Add Organization / Group';
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
+    }
+
     protected function getFormActions(): array
     {
         return [

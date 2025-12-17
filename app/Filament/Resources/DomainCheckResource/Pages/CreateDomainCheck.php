@@ -85,20 +85,20 @@ class CreateDomainCheck extends CreateRecord
         // Check domain check limit
         $user = \App\Models\User::find($userId);
         if ($user) {
-            $limit = $user->limit_domain_check ?? 0;
-            if ($limit > 0) {
+            $limit = $user->limit_domain_check; // null = Unlimited
+            if ($limit !== null) {
                 $currentChecks = \App\Models\DomainCheck::where('user_id', $userId)->count();
                 $newCount = count($validDomains);
                 
                 if (($currentChecks + $newCount) > $limit) {
                     \Filament\Notifications\Notification::make()
-                        ->title('Domain check limit akan terlampaui')
-                        ->body("Anda akan melebihi limit domain check. Limit: {$limit}, Saat ini: {$currentChecks}, Akan ditambahkan: {$newCount}")
+                        ->title('Domain check limit would be exceeded')
+                        ->body("You would exceed your domain check limit. Limit: {$limit}, Current: {$currentChecks}, Adding: {$newCount}")
                         ->danger()
                         ->send();
 
                     throw \Illuminate\Validation\ValidationException::withMessages([
-                        'domains' => "Domain check limit akan terlampaui. Limit: {$limit}, Saat ini: {$currentChecks}",
+                        'domains' => "Domain check limit would be exceeded. Limit: {$limit}, Current: {$currentChecks}",
                     ]);
                 }
             }
@@ -112,8 +112,8 @@ class CreateDomainCheck extends CreateRecord
 
         if (!empty($existingDomains)) {
             \Filament\Notifications\Notification::make()
-                ->title('Beberapa domain sudah terdaftar')
-                ->body('Domain berikut sudah ada: ' . implode(', ', $existingDomains))
+                ->title('Some domains are already registered')
+                ->body('These domains already exist: ' . implode(', ', $existingDomains))
                 ->warning()
                 ->send();
 
@@ -122,7 +122,7 @@ class CreateDomainCheck extends CreateRecord
             
             if (empty($validDomains)) {
                 throw \Illuminate\Validation\ValidationException::withMessages([
-                    'domains' => 'Semua domain yang dimasukkan sudah terdaftar.',
+                    'domains' => 'All entered domains are already registered.',
                 ]);
             }
         }
@@ -162,16 +162,16 @@ class CreateDomainCheck extends CreateRecord
         if (!empty($created)) {
             $count = count($created);
             \Filament\Notifications\Notification::make()
-                ->title('Domain berhasil ditambahkan')
-                ->body("{$count} domain berhasil ditambahkan: " . implode(', ', $created))
+                ->title('Domains added successfully')
+                ->body("{$count} domain(s) added: " . implode(', ', $created))
                 ->success()
                 ->send();
         }
 
         if (!empty($failed)) {
             \Filament\Notifications\Notification::make()
-                ->title('Beberapa domain gagal ditambahkan')
-                ->body('Domain: ' . implode(', ', $failed))
+                ->title('Some domains could not be added')
+                ->body('Domains: ' . implode(', ', $failed))
                 ->warning()
                 ->send();
         }

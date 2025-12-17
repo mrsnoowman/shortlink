@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class RoleResource extends Resource
 {
@@ -16,14 +17,31 @@ class RoleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-identification';
 
-    protected static ?string $navigationLabel = 'Roles';
+    /**
+     * NOTE:
+     * - `users.role` is the ACCESS LEVEL (fixed: master/admin/user)
+     * - `users.role_id` relates to this model (`roles` table) which is used as Organization/Group
+     */
+    public const RESERVED_ACCESS_LEVELS = ['master', 'admin', 'user'];
+
+    protected static ?string $navigationLabel = 'Organizations / Groups';
 
     protected static ?string $navigationGroup = 'Settings';
+
+    protected static ?string $modelLabel = 'Organization / Group';
+
+    protected static ?string $pluralModelLabel = 'Organizations / Groups';
 
     protected static function currentRole(): ?string
     {
         $role = auth()->user()?->role;
         return $role ? strtolower($role) : null;
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        // Show only organization/group records (exclude reserved access-level names).
+        return parent::getEloquentQuery()->whereNotIn('name', self::RESERVED_ACCESS_LEVELS);
     }
 
     public static function shouldRegisterNavigation(): bool
@@ -56,15 +74,19 @@ class RoleResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Role Name')
+                    ->label('Group Code')
                     ->required()
                     ->unique(ignoreRecord: true)
+                    ->rules([
+                        'regex:/^[a-z0-9_-]+$/',
+                        'not_in:' . implode(',', self::RESERVED_ACCESS_LEVELS),
+                    ])
                     ->maxLength(50)
-                    ->helperText('Use lowercase without spaces, e.g.: master, owner, user'),
+                    ->helperText('Unique identifier for the organization/group (lowercase, no spaces). Example: client_a, group-1.'),
                 Forms\Components\TextInput::make('label')
-                    ->label('Label')
+                    ->label('Group Name')
                     ->maxLength(100)
-                    ->helperText('Optional display name (shown in the admin panel).'),
+                    ->helperText('Display name shown in the admin panel (optional).'),
             ]);
     }
 
@@ -73,12 +95,12 @@ class RoleResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Role')
+                    ->label('Code')
                     ->badge()
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('label')
-                    ->label('Label')
+                    ->label('Name')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')

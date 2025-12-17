@@ -84,7 +84,7 @@ class LicenseService
         if (!$this->hasLicense()) {
             return [
                 'valid' => false,
-                'message' => 'License key tidak ditemukan. Aplikasi tidak dapat dijalankan.',
+                'message' => 'License key not found. The application cannot run.',
                 'error' => 'NO_LICENSE'
             ];
         }
@@ -94,7 +94,7 @@ class LicenseService
         if (!$data) {
             return [
                 'valid' => false,
-                'message' => 'License key tidak valid atau rusak. Aplikasi tidak dapat dijalankan.',
+                'message' => 'License key is invalid or corrupted. The application cannot run.',
                 'error' => 'INVALID_LICENSE'
             ];
         }
@@ -103,7 +103,7 @@ class LicenseService
         if (!isset($data['key']) || empty($data['key'])) {
             return [
                 'valid' => false,
-                'message' => 'License key kosong. Aplikasi tidak dapat dijalankan.',
+                'message' => 'License key is empty. The application cannot run.',
                 'error' => 'EMPTY_KEY'
             ];
         }
@@ -112,7 +112,7 @@ class LicenseService
         if (!isset($data['expires_at'])) {
             return [
                 'valid' => false,
-                'message' => 'License key tidak memiliki tanggal kadaluarsa. Aplikasi tidak dapat dijalankan.',
+                'message' => 'License key does not have an expiry date. The application cannot run.',
                 'error' => 'NO_EXPIRY'
             ];
         }
@@ -125,7 +125,7 @@ class LicenseService
                 $daysExpired = now()->diffInDays($expiresAt);
                 return [
                     'valid' => false,
-                    'message' => "License key telah kadaluarsa sejak {$expiresAt->format('d M Y H:i:s')} ({$daysExpired} hari yang lalu). Aplikasi tidak dapat dijalankan.",
+                    'message' => "License key expired on {$expiresAt->format('d M Y H:i:s')} ({$daysExpired} day(s) ago). The application cannot run.",
                     'error' => 'EXPIRED',
                     'expires_at' => $expiresAt
                 ];
@@ -135,7 +135,7 @@ class LicenseService
             $daysUntilExpiry = now()->diffInDays($expiresAt, false);
             $warning = null;
             if ($daysUntilExpiry <= 7 && $daysUntilExpiry > 0) {
-                $warning = "License key akan kadaluarsa dalam {$daysUntilExpiry} hari.";
+                $warning = "License key will expire in {$daysUntilExpiry} day(s).";
             }
 
             return [
@@ -151,7 +151,7 @@ class LicenseService
             }
             return [
                 'valid' => false,
-                'message' => 'Format tanggal kadaluarsa tidak valid. Aplikasi tidak dapat dijalankan.',
+                'message' => 'Invalid expiry date format. The application cannot run.',
                 'error' => 'INVALID_DATE'
             ];
         }

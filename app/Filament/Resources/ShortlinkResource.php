@@ -109,8 +109,8 @@ class ShortlinkResource extends Resource
                                 
                                 if ($attempts >= $maxAttempts) {
                                     \Filament\Notifications\Notification::make()
-                                        ->title('Gagal generate code')
-                                        ->body('Silakan coba lagi')
+                                        ->title('Failed to generate short code')
+                                        ->body('Please try again.')
                                         ->danger()
                                         ->send();
                                     return;
@@ -119,7 +119,7 @@ class ShortlinkResource extends Resource
                                 $set('short_code', $code);
                                 
                                 \Filament\Notifications\Notification::make()
-                                    ->title('Short code berhasil di-generate')
+                                    ->title('Short code generated successfully')
                                     ->success()
                                     ->send();
                             })
@@ -144,8 +144,7 @@ class ShortlinkResource extends Resource
                     ->label('User')
                     ->searchable()
                     ->sortable()
-                    // Tampilkan untuk master dan admin agar admin bisa melihat
-                    // pemilik masing-masing shortlink dalam organisasinya.
+                    // Show for master/admin so admins can see who owns each shortlink in the org.
                     ->visible(fn () => in_array(auth()->user()?->role ?? null, ['master', 'admin'])),
                 Tables\Columns\TextColumn::make('short_code')
                     ->label('Short URL')
@@ -197,10 +196,10 @@ class ShortlinkResource extends Resource
                             return 'No URLs';
                         }
                         
-                        // Priority: 1. Primary yang tidak blocked, 2. Active pertama, 3. Blocked pertama (jika semua blocked)
+                        // Priority: 1) Primary not blocked, 2) First active, 3) First blocked (if all blocked)
                         $displayUrl = null;
                         
-                        // 1. Cari primary yang tidak blocked
+                        // 1) Find primary that is not blocked
                         $primaryActive = $targetUrls->where('is_primary', true)
                             ->where('is_blocked', false)
                             ->first();
@@ -208,13 +207,13 @@ class ShortlinkResource extends Resource
                         if ($primaryActive) {
                             $displayUrl = $primaryActive;
                         } else {
-                            // 2. Cari yang aktif (tidak blocked) pertama
+                            // 2) Find first active (not blocked)
                             $activeFirst = $targetUrls->where('is_blocked', false)->first();
                             
                             if ($activeFirst) {
                                 $displayUrl = $activeFirst;
                             } else {
-                                // 3. Jika semua blocked, tampilkan yang blocked pertama
+                                // 3) If all blocked, show the first blocked
                                 $displayUrl = $targetUrls->first();
                             }
                         }
@@ -235,7 +234,7 @@ class ShortlinkResource extends Resource
                             return null;
                         }
                         
-                        // Priority: 1. Primary yang tidak blocked, 2. Active pertama, 3. Blocked pertama
+                        // Priority: 1) Primary not blocked, 2) First active, 3) First blocked
                         $primaryActive = $targetUrls->where('is_primary', true)
                             ->where('is_blocked', false)
                             ->first();
@@ -257,7 +256,7 @@ class ShortlinkResource extends Resource
                             return null;
                         }
                         
-                        // Priority: 1. Primary yang tidak blocked, 2. Active pertama, 3. Blocked pertama
+                        // Priority: 1) Primary not blocked, 2) First active, 3) First blocked
                         $primaryActive = $targetUrls->where('is_primary', true)
                             ->where('is_blocked', false)
                             ->first();
@@ -298,7 +297,7 @@ class ShortlinkResource extends Resource
                     ->color('primary')
                     ->url(fn ($record) => static::getUrl('analytics', ['record' => $record]))
                     ->openUrlInNewTab()
-                    ->tooltip('Lihat analitik shortlink ini'),
+                    ->tooltip('View analytics for this shortlink'),
                 Tables\Columns\TextColumn::make('active_urls_count')
                     ->label('Active URLs')
                     ->state(function ($record) {
@@ -336,7 +335,7 @@ class ShortlinkResource extends Resource
             ])
             ->actions([
                 Tables\Actions\Action::make('view_target_urls')
-                    ->label('Detail')
+                    ->label('Details')
                     ->icon('heroicon-o-eye')
                     ->color('info')
                     ->tooltip('View Target URLs Detail')
@@ -388,12 +387,12 @@ class ShortlinkResource extends Resource
         $user = auth()->user();
 
         if ($user && $user->role === 'admin') {
-            // Admin: bisa melihat shortlink miliknya dan semua user di organisasinya
+            // Admin: can see their shortlinks and all users within their organization
             $query->whereHas('user', function (Builder $q) use ($user) {
                 $q->where('role_id', $user->role_id);
             });
         } elseif ($user && $user->role === 'user') {
-            // User biasa: hanya melihat shortlink miliknya sendiri
+            // Regular user: only see their own shortlinks
             $query->where('user_id', $user->id);
         }
 

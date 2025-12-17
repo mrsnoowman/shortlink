@@ -25,12 +25,12 @@ class WelcomeInfo extends StatsOverviewWidget
                 ->description('Your current access level.')
                 ->icon('heroicon-o-user-circle'),
 
-            Stat::make('Shortlink Limit', $user && $user->limit_short == 0 ? 'Unlimited' : number_format($user->limit_short ?? 0))
+            Stat::make('Shortlink Limit', $user && $user->limit_short === null ? 'Unlimited' : number_format($user->limit_short ?? 0))
                 ->description('Maximum number of shortlinks.')
                 ->icon('heroicon-o-link')
                 ->color('success'),
 
-            Stat::make('Domain Check Limit', $user && $user->limit_domain_check == 0 ? 'Unlimited' : number_format($user->limit_domain_check ?? 0))
+            Stat::make('Domain Check Limit', $user && $user->limit_domain_check === null ? 'Unlimited' : number_format($user->limit_domain_check ?? 0))
                 ->description('Maximum number of domain checks.')
                 ->icon('heroicon-o-globe-alt')
                 ->color('info'),

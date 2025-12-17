@@ -16,14 +16,14 @@ class ListAliases extends ListRecords
     {
         parent::mount();
 
-        // Auto-create alias jika belum ada
+        // Auto-create alias if none exists yet
         $user = auth()->user();
         if ($user && $user->role === 'master') {
-            // Cek apakah sudah ada alias
+            // Check whether an alias already exists
             $existingAlias = Alias::where('user_id', $user->id)->first();
 
             if (!$existingAlias) {
-                // Ambil domain dari APP_URL
+                // Get domain from APP_URL
                 $appUrl = config('app.url', '');
                 $customDomain = null;
 
@@ -32,9 +32,9 @@ class ListAliases extends ListRecords
                     $customDomain = (string) Str::of($host)->trim('/');
                 }
 
-                // Jika berhasil dapat domain, buat alias otomatis
+                // If a domain was obtained, create the alias automatically
                 if ($customDomain) {
-                    // Cek apakah domain sudah digunakan oleh user lain
+                    // Ensure the domain is not already used by another user
                     $domainExists = Alias::where('custom_domain', $customDomain)->exists();
 
                     if (!$domainExists) {

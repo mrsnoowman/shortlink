@@ -89,8 +89,8 @@ class ViewShortlinkTargets extends Page implements HasTable
                             $query->where('user_id', $user->id);
                         })->count();
 
-                        $domainLimit = $user->limit_domain ?? 0;
-                        if ($domainLimit > 0 && ($currentDomains + 1) > $domainLimit) {
+                        $domainLimit = $user->limit_domain; // null = Unlimited
+                        if ($domainLimit !== null && ($currentDomains + 1) > $domainLimit) {
                             \Filament\Notifications\Notification::make()
                                 ->title('Domain limit reached')
                                 ->body('You have reached your domain limit.')

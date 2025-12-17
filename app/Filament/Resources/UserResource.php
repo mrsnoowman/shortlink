@@ -134,10 +134,11 @@ class UserResource extends Resource
                     })
                     ->default('user')
                     ->required()
+                    ->rules(['in:master,admin,user'])
                     ->disabled(fn ($record) => $record && auth()->user()?->role !== 'master')
                     ->visible(fn () => in_array(auth()->user()?->role ?? null, ['master', 'admin'])),
                 Forms\Components\Select::make('role_id')
-                    ->label('Role / Organisasi')
+                    ->label('Organization / Group')
                     ->relationship('roleRelation', 'label')
                     ->options(function () {
                         // Tampilkan hanya role \"toko\" yang dibuat master, 
@@ -149,7 +150,7 @@ class UserResource extends Resource
                     })
                     ->searchable()
                     ->preload()
-                    ->helperText('Pilih organisasi / group untuk mengelompokkan user (misal: Client A).')
+                    ->helperText('Select an organization/group to group users (e.g., Client A).')
                     ->visible(fn () => auth()->user()?->role === 'master')
                     ->nullable(),
                 Forms\Components\TextInput::make('password')
@@ -160,55 +161,149 @@ class UserResource extends Resource
                     ->maxLength(255)
                     ->helperText(fn ($livewire) => $livewire instanceof \App\Filament\Resources\UserResource\Pages\EditUser ? 'Leave empty if you do not want to change the password.' : ''),
                 Forms\Components\TextInput::make('limit_short')
-                    ->label('Limit Short')
-                    ->numeric()
-                    ->default(fn () => auth()->user()?->role === 'admin' ? 1 : 0)
+                    ->label('Short')
+                    ->required()
+                    ->default(fn () => auth()->user()?->role === 'admin' ? '1' : '0')
+                    ->placeholder('0')
+                    ->formatStateUsing(fn ($state) => $state === null ? '!' : (string) $state)
+                    ->dehydrateStateUsing(function ($state) {
+                        $state = is_string($state) ? trim($state) : $state;
+                        if ($state === '!') {
+                            return null; // Unlimited
+                        }
+                        return (int) $state;
+                    })
                     ->rules(function () {
                         $role = auth()->user()?->role;
 
                         if ($role === 'admin') {
-                            // Admin: hanya boleh 1
-                            return ['integer', 'in:1'];
+                            return [
+                                function (string $attribute, $value, \Closure $fail): void {
+                                    $value = is_string($value) ? trim($value) : $value;
+                                    if ((string) $value !== '1') {
+                                        $fail('For Admin, this value is fixed to 1.');
+                                    }
+                                },
+                            ];
                         }
 
-                        // Master: boleh 0 (unlimited) atau nilai lain
-                        return ['integer', 'min:0'];
+                        return [
+                            function (string $attribute, $value, \Closure $fail): void {
+                                $value = is_string($value) ? trim($value) : $value;
+                                if ($value === '!') {
+                                    return; // Unlimited
+                                }
+                                if ($value === '' || $value === null) {
+                                    $fail('This field is required. Use "!" for Unlimited or enter a number (0+).');
+                                    return;
+                                }
+                                if (!ctype_digit((string) $value)) {
+                                    $fail('Enter a non-negative integer (0+) or "!".');
+                                }
+                            },
+                        ];
                     })
-                    ->helperText('Shortlink limit: Master can set any value (0 = unlimited), Admin: fixed at 1.')
+                    ->helperText('Use "!" for Unlimited. Use 0 for zero allowed. Admin: fixed at 1.')
                     ->visible(fn () => in_array(auth()->user()?->role ?? null, ['master', 'admin'])),
                 Forms\Components\TextInput::make('limit_domain')
-                    ->label('Limit Domain')
-                    ->numeric()
-                    ->default(fn () => auth()->user()?->role === 'admin' ? 1 : 0)
+                    ->label('Domain Target')
+                    ->required()
+                    ->default(fn () => auth()->user()?->role === 'admin' ? '1' : '0')
+                    ->placeholder('0')
+                    ->formatStateUsing(fn ($state) => $state === null ? '!' : (string) $state)
+                    ->dehydrateStateUsing(function ($state) {
+                        $state = is_string($state) ? trim($state) : $state;
+                        if ($state === '!') {
+                            return null; // Unlimited
+                        }
+                        return (int) $state;
+                    })
                     ->rules(function () {
                         $role = auth()->user()?->role;
 
                         if ($role === 'admin') {
-                            // Admin: min 1, max 10
-                            return ['integer', 'min:1', 'max:10'];
+                            return [
+                                function (string $attribute, $value, \Closure $fail): void {
+                                    $value = is_string($value) ? trim($value) : $value;
+                                    if (!ctype_digit((string) $value)) {
+                                        $fail('Enter an integer between 1 and 10.');
+                                        return;
+                                    }
+                                    $int = (int) $value;
+                                    if ($int < 1 || $int > 10) {
+                                        $fail('Enter an integer between 1 and 10.');
+                                    }
+                                },
+                            ];
                         }
 
-                        // Master: boleh 0 (unlimited) atau nilai lain
-                        return ['integer', 'min:0'];
+                        return [
+                            function (string $attribute, $value, \Closure $fail): void {
+                                $value = is_string($value) ? trim($value) : $value;
+                                if ($value === '!') {
+                                    return; // Unlimited
+                                }
+                                if ($value === '' || $value === null) {
+                                    $fail('This field is required. Use "!" for Unlimited or enter a number (0+).');
+                                    return;
+                                }
+                                if (!ctype_digit((string) $value)) {
+                                    $fail('Enter a non-negative integer (0+) or "!".');
+                                }
+                            },
+                        ];
                     })
-                    ->helperText('Domain limit: Master can set any value (0 = unlimited), Admin: 1–10.')
+                    ->helperText('Use "!" for Unlimited. Use 0 for zero allowed. Admin: 1–10.')
                     ->visible(fn () => in_array(auth()->user()?->role ?? null, ['master', 'admin'])),
                 Forms\Components\TextInput::make('limit_domain_check')
-                    ->label('Limit Domain Check')
-                    ->numeric()
-                    ->default(fn () => auth()->user()?->role === 'admin' ? 1 : 0)
+                    ->label('Domain Check')
+                    ->required()
+                    ->default(fn () => auth()->user()?->role === 'admin' ? '1' : '0')
+                    ->placeholder('0')
+                    ->formatStateUsing(fn ($state) => $state === null ? '!' : (string) $state)
+                    ->dehydrateStateUsing(function ($state) {
+                        $state = is_string($state) ? trim($state) : $state;
+                        if ($state === '!') {
+                            return null; // Unlimited
+                        }
+                        return (int) $state;
+                    })
                     ->rules(function () {
                         $role = auth()->user()?->role;
 
                         if ($role === 'admin') {
-                            // Admin: min 1, max 10
-                            return ['integer', 'min:1', 'max:10'];
+                            return [
+                                function (string $attribute, $value, \Closure $fail): void {
+                                    $value = is_string($value) ? trim($value) : $value;
+                                    if (!ctype_digit((string) $value)) {
+                                        $fail('Enter an integer between 1 and 10.');
+                                        return;
+                                    }
+                                    $int = (int) $value;
+                                    if ($int < 1 || $int > 10) {
+                                        $fail('Enter an integer between 1 and 10.');
+                                    }
+                                },
+                            ];
                         }
 
-                        // Master: boleh 0 (unlimited) atau nilai lain
-                        return ['integer', 'min:0'];
+                        return [
+                            function (string $attribute, $value, \Closure $fail): void {
+                                $value = is_string($value) ? trim($value) : $value;
+                                if ($value === '!') {
+                                    return; // Unlimited
+                                }
+                                if ($value === '' || $value === null) {
+                                    $fail('This field is required. Use "!" for Unlimited or enter a number (0+).');
+                                    return;
+                                }
+                                if (!ctype_digit((string) $value)) {
+                                    $fail('Enter a non-negative integer (0+) or "!".');
+                                }
+                            },
+                        ];
                     })
-                    ->helperText('Domain check limit: Master can set any value (0 = unlimited), Admin: 1–10.')
+                    ->helperText('Use "!" for Unlimited. Use 0 for zero allowed. Admin: 1–10.')
                     ->visible(fn () => in_array(auth()->user()?->role ?? null, ['master', 'admin'])),
                 Forms\Components\Toggle::make('telegram_enabled')
                     ->label('Telegram Notification')
@@ -230,15 +325,12 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
-                    ->searchable()
+                    ->label('User')
+                    ->description(fn ($record): string => (string) ($record->email ?? ''))
+                    ->searchable(['name', 'email'])
                     ->sortable()
-                    ->icon('heroicon-o-user'),
-                Tables\Columns\TextColumn::make('email')
-                    ->label('Email')
-                    ->searchable()
-                    ->sortable()
-                    ->icon('heroicon-o-envelope'),
+                    ->icon('heroicon-o-user')
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('role')
                     ->label('Role')
                     ->formatStateUsing(function ($state) {
@@ -264,19 +356,35 @@ class UserResource extends Resource
                     })
                     ->iconPosition('before')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('roleRelation.label')
+                    ->label('Organization / Group')
+                    ->state(function ($record): string {
+                        $org = $record->roleRelation;
+                        return (string) ($org?->label ?: ($org?->name ?: '-'));
+                    })
+                    ->badge()
+                    ->color(fn ($record) => $record->roleRelation ? 'info' : 'gray')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('limit_short')
-                    ->label('Limit Short')
-                    ->formatStateUsing(fn ($state) => $state == 0 ? 'Unlimited' : number_format($state))
+                    ->label('Short')
+                    ->state(fn ($record): string => $record->limit_short === null ? 'Unlimited' : number_format((int) $record->limit_short))
+                    ->badge()
+                    ->color(fn ($record) => $record->limit_short === null ? 'success' : (((int) $record->limit_short) === 0 ? 'danger' : 'info'))
                     ->sortable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('limit_domain')
-                    ->label('Limit Domain')
-                    ->formatStateUsing(fn ($state) => $state == 0 ? 'Unlimited' : number_format($state))
+                    ->label('Domain Target')
+                    ->state(fn ($record): string => $record->limit_domain === null ? 'Unlimited' : number_format((int) $record->limit_domain))
+                    ->badge()
+                    ->color(fn ($record) => $record->limit_domain === null ? 'success' : (((int) $record->limit_domain) === 0 ? 'danger' : 'info'))
                     ->sortable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('limit_domain_check')
-                    ->label('Limit Domain Check')
-                    ->formatStateUsing(fn ($state) => $state == 0 ? 'Unlimited' : number_format($state))
+                    ->label('Domain Check')
+                    ->state(fn ($record): string => $record->limit_domain_check === null ? 'Unlimited' : number_format((int) $record->limit_domain_check))
+                    ->badge()
+                    ->color(fn ($record) => $record->limit_domain_check === null ? 'success' : (((int) $record->limit_domain_check) === 0 ? 'danger' : 'info'))
                     ->sortable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('email_verified_at')

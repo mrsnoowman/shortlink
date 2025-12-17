@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class RecentDomainChecks extends BaseWidget
 {
-    protected static ?string $heading = 'Domain Check Terbaru';
+    protected static ?string $heading = 'Recent Domain Checks';
 
     protected int|string|array $columnSpan = [
         'md' => 1,
@@ -55,7 +55,7 @@ class RecentDomainChecks extends BaseWidget
                 ->label('User')
                 ->toggleable(isToggledHiddenByDefault: true),
             Tables\Columns\TextColumn::make('created_at')
-                ->label('Dibuat')
+                ->label('Created')
                 ->since(),
         ];
     }

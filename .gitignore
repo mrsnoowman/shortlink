@@ -3,6 +3,11 @@
 /public/hot
 /public/storage
 /storage/*.key
+/storage/framework/views/*.php
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/logs/*.log
+/bootstrap/cache/*.php
 /vendor
 .env
 .env.backup

@@ -41,8 +41,8 @@ class GenerateLicense extends Command
     {
         // Check if license already exists
         if ($this->licenseService->hasLicense()) {
-            if (!$this->confirm('License key sudah ada. Apakah Anda ingin menggantinya?')) {
-                $this->info('Operasi dibatalkan.');
+            if (!$this->confirm('A license key already exists. Do you want to replace it?')) {
+                $this->info('Operation cancelled.');
                 return 0;
             }
         }
@@ -60,7 +60,7 @@ class GenerateLicense extends Command
             try {
                 $expiresAt = Carbon::parse($this->option('date'));
             } catch (\Exception $e) {
-                $this->error('Format tanggal tidak valid. Gunakan format Y-m-d (contoh: 2025-12-31)');
+                $this->error('Invalid date format. Use Y-m-d (example: 2025-12-31)');
                 return 1;
             }
         } else {
@@ -71,23 +71,23 @@ class GenerateLicense extends Command
         // Generate license
         try {
             if ($this->licenseService->generateLicense($key, $expiresAt)) {
-                $this->info('✓ License key berhasil dibuat!');
+                $this->info('✓ License key generated successfully!');
                 $this->line('');
                 $this->line("Key: {$key}");
                 $this->line("Expires at: {$expiresAt->format('d M Y H:i:s')}");
-                $this->line("Days remaining: " . now()->diffInDays($expiresAt) . " hari");
+                $this->line("Days remaining: " . now()->diffInDays($expiresAt) . " day(s)");
                 $this->line('');
-                $this->warn('⚠ PENTING: Simpan license key ini dengan aman!');
+                $this->warn('⚠ IMPORTANT: Store this license key securely!');
                 return 0;
             } else {
-                $this->error('✗ Gagal membuat license key.');
+                $this->error('✗ Failed to generate license key.');
                 $this->line('');
-                $this->warn('Kemungkinan penyebab:');
-                $this->line('  - Directory storage/app tidak dapat dibuat');
-                $this->line('  - Permission file tidak mencukupi');
-                $this->line('  - Disk penuh atau error I/O');
+                $this->warn('Possible causes:');
+                $this->line('  - The storage/app directory could not be created');
+                $this->line('  - File permissions are insufficient');
+                $this->line('  - Disk full or I/O error');
                 $this->line('');
-                $this->line('Cek log di storage/logs/laravel.log untuk detail error.');
+                $this->line('Check storage/logs/laravel.log for error details.');
                 return 1;
             }
         } catch (\Exception $e) {

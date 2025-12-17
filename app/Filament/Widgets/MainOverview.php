@@ -75,7 +75,7 @@ class MainOverview extends StatsOverviewWidget
         return [
             Stat::make('My Shortlinks', $shortCount)
                 ->description(
-                    $user && $user->limit_short == 0
+                    $user && $user->limit_short === null
                         ? 'Limit: Unlimited'
                         : 'Limit: ' . ($user ? number_format($user->limit_short) : '-')
                 )
@@ -83,7 +83,7 @@ class MainOverview extends StatsOverviewWidget
 
             Stat::make('My Domains', $domainCount)
                 ->description(
-                    $user && $user->limit_domain == 0
+                    $user && $user->limit_domain === null
                         ? 'Limit: Unlimited'
                         : 'Limit: ' . ($user ? number_format($user->limit_domain) : '-')
                 )
@@ -91,7 +91,7 @@ class MainOverview extends StatsOverviewWidget
 
             Stat::make('My Domain Checks', $domainCheckCount)
                 ->description(
-                    $user && $user->limit_domain_check == 0
+                    $user && $user->limit_domain_check === null
                         ? 'Limit: Unlimited'
                         : 'Limit: ' . ($user ? number_format($user->limit_domain_check) : '-')
                 )

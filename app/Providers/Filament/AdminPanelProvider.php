@@ -29,11 +29,11 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            // Gunakan URL gambar langsung sebagai brand logo,
-            // Filament akan membungkusnya dalam tag <img> sendiri.
+            // Use a direct image URL as the brand logo.
+            // Filament will wrap it in an <img> tag automatically.
             ->brandLogo('https://cdn.assetsgg.org/uploads/webassets/GGCULOX/1747500040_cc05ce3aecf702150051.png')
             ->brandLogoHeight('4rem')
-            // Izinkan sidebar di-collapse pada mode desktop
+            // Allow the sidebar to be collapsible on desktop
             ->sidebarCollapsibleOnDesktop()
             ->login()
             ->colors([

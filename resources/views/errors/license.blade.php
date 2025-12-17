@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>License Error - Aplikasi Tidak Dapat Diakses</title>
+    <title>License Error - Application Unavailable</title>
     <style>
         * {
             margin: 0;
@@ -93,24 +93,24 @@
 <body>
     <div class="container">
         <div class="icon">🔒</div>
-        <h1>Aplikasi Tidak Dapat Diakses</h1>
-        <div class="error-code">ERROR: License Key Tidak Valid</div>
+        <h1>Application Unavailable</h1>
+        <div class="error-code">ERROR: Invalid License Key</div>
         <div class="message">
-            {{ $message ?? 'License key tidak ditemukan atau telah kadaluarsa. Aplikasi tidak dapat dijalankan.' }}
+            {{ $message ?? 'License key was not found or has expired. The application cannot run.' }}
         </div>
         
         <div class="info-box">
-            <p><strong>Penyebab:</strong></p>
-            <p>• License key tidak ditemukan di sistem</p>
-            <p>• License key telah kadaluarsa</p>
-            <p>• License key tidak valid atau rusak</p>
+            <p><strong>Possible causes:</strong></p>
+            <p>• License key is not present on the system</p>
+            <p>• License key has expired</p>
+            <p>• License key is invalid or corrupted</p>
         </div>
 
         <div class="action">
-            <p><strong>Solusi:</strong></p>
-            <p>Hubungi administrator untuk mendapatkan license key baru atau perpanjang license yang ada.</p>
+            <p><strong>How to fix:</strong></p>
+            <p>Contact the administrator to obtain a new license key or renew the existing license.</p>
             <p style="margin-top: 15px;">
-                Jika Anda adalah administrator, jalankan command berikut di terminal:
+                If you are the administrator, run the following command in your terminal:
             </p>
             <p style="margin-top: 10px;">
                 <code>php artisan license:generate</code>
